@@ -1,0 +1,6 @@
+nav
+  a(href="/") Home
+  - if (_auth_owner != null)
+    a(href="/contact") Contacts
+    a(href="/owner/profile") Profile
+    a(href="/auth/logout") Logout

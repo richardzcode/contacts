@@ -1,0 +1,15 @@
+#login
+  form(method="POST", action="/auth/signup")
+    header Sign up
+    div
+      div.form-field
+        label Email:
+        input(type="text", name="owner[email]", value=owner.email, required, autofocus)
+      div.form-field
+        label Password:
+        input(type="password", name="owner[password]", required)
+      div.form-actions
+        input(type="submit", value="Signup")
+    div  Already have an account? 
+      a(href="/auth/login") Login
+      |  here!

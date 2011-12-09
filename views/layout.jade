@@ -1,0 +1,12 @@
+!!!
+html
+  head
+    title= _page_title + ' - ' + _app_title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    #container
+      include _navbar
+      h1= _page_title
+      p Welcome to our site
+      include _messages
+      != body
