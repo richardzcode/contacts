@@ -1,36 +1,3 @@
-Object.defineProperty(Object.prototype, "extend", {
-    enumerable: false,
-    value: function(from, replace) {
-        if (replace == undefined) {
-          replace = true;
-        }
-        var props = Object.getOwnPropertyNames(from);
-        var dest = this;
-        props.forEach(function(name) {
-            if (!(name in dest) || replace) {
-                var destination = Object.getOwnPropertyDescriptor(from, name);
-                Object.defineProperty(dest, name, destination);
-            }
-        });
-        return this;
-    }
-});
-
-Object.defineProperty(Object.prototype, "subset", {
-    enumerable: false,
-    value: function(names) {
-        var props = Object.getOwnPropertyNames(this);
-        var ret = {};
-        props.forEach(function(name) {
-            if (name in names) {
-                var des = Object.getOwnPropertyDescriptor(this, name);
-                Object.defineProperty(ret, name, des);
-            }
-        });
-        return ret;
-    }
-});
-
 /**
  * Module dependencies.
  */
@@ -41,6 +8,8 @@ var app = module.exports = express.createServer();
 
 var settings = require('./settings.js')
   , zzz = require('./lib/zzz');
+
+zzz.beforeApp();
 
 // Configuration
 

@@ -1,3 +1,5 @@
+var util = require('../lib/zzz/util.js');
+
 module.exports.name = 'Owner';
 
 module.exports.class = function(data) {
@@ -5,7 +7,8 @@ module.exports.class = function(data) {
 
   this.FIELDMAP = {
     email: {default: '', type: 'email', required: true},
-    password: {default: '', type: 'password', required: true}
+    password: {default: '', type: 'password', required: true},
+    password_digest: {default: '', type: 'password_digest'}
   }
 
   this.RESULT = {
@@ -28,7 +31,7 @@ module.exports.class = function(data) {
   this.onAuthenticate = function(err, record) {
       var ret = this.RESULT.ERROR;
       if (record) {
-        if (record.password == this.password) {
+        if (record.password_digest == util.digest(this.password)) {
           this.bind(record);
           ret = this.RESULT.SUCCESS;
         } else {
@@ -57,6 +60,7 @@ module.exports.class = function(data) {
     if (record) {
       this._signup_callback(false, this.RESULT.ALREADY_EXIST);
     } else {
+      this.password_digest = util.digest(this.password);
       this.save(this, this.onSignupSave);
     }
   }

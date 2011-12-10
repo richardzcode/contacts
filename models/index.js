@@ -25,7 +25,7 @@ function base(cls) {
       ERROR: 'ERROR'
     });
 
-    if(data && this.isValid(data)) {
+    if(data) {
       this.bind(data);
     }
   }
@@ -56,6 +56,9 @@ function base(cls) {
   _proto.asRecord = function() {
     var ret = {}
     for (var name in this.FIELDMAP) {
+      if (this.FIELDMAP[name].type == 'password') {
+        continue;
+      }
       ret[name] = this[name];
     }
     return ret;
@@ -109,7 +112,6 @@ function base(cls) {
   }
   _proto.find_onCollection = function(err, collection) {
       var obj = this;
-      console.log(obj);
       if (err) {
         obj._find_callback.call(obj._find_caller, err, null);
       } else {
@@ -163,17 +165,17 @@ function base(cls) {
     //
   }
 
-  _proto.save = function(caller, callback, exit_callback) {
+  _proto.save = function(caller, callback) {
     collection = this.getCollection(caller, function(err, collection) {
       if (err) {
-        callback.call(caller, err, null, exit_callback);
+        callback.call(caller, err, null);
       } else {
         collection.insert(this.asRecord(), function(err, doc) {
           if (err) {
-            callback.call(caller, err, null, exit_callback);
+            callback.call(caller, err, null);
           } else {
             caller.bind(doc);
-            callback.call(caller, err, doc, exit_callback);
+            callback.call(caller, err, doc);
           }
         });
       }
