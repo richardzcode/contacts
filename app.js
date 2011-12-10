@@ -16,6 +16,21 @@ Object.defineProperty(Object.prototype, "extend", {
     }
 });
 
+Object.defineProperty(Object.prototype, "subset", {
+    enumerable: false,
+    value: function(names) {
+        var props = Object.getOwnPropertyNames(this);
+        var ret = {};
+        props.forEach(function(name) {
+            if (name in names) {
+                var des = Object.getOwnPropertyDescriptor(this, name);
+                Object.defineProperty(ret, name, des);
+            }
+        });
+        return ret;
+    }
+});
+
 /**
  * Module dependencies.
  */
@@ -69,6 +84,11 @@ dispatcher.routes('auth'
 
 dispatcher.routes('owner'
   , ['gp', '/owner/profile', 'profile']
+);
+
+dispatcher.routes('contact'
+  , ['get', '/contacts', 'index']
+  , ['get', '/contacts/new', 'new']
 );
 
 app.listen(3000);

@@ -18,18 +18,15 @@ module.exports.class = function(data) {
     this.init(data);
   }
 
-  this.authenticate = function(exit_callback) {
+  this.authenticate = function(callback) {
+    this._auth_callback = callback;
     this.findFirst({email: this.email}
       , this
-      , this.onAuthenticate
-      , exit_callback);
+      , this.onAuthenticate);
   }
 
-  this.onAuthenticate = function(err, record, exit_callback) {
-      if (err) {
-        exit_callback(err, this.RESULT.ERROR);
-        return;
-      }
+  this.onAuthenticate = function(err, record) {
+      var ret = this.RESULT.ERROR;
       if (record) {
         if (record.password == this.password) {
           this.bind(record);
@@ -38,35 +35,37 @@ module.exports.class = function(data) {
           ret = this.RESULT.WRONG_PASSWORD;
         }
       } else {
-        ret = this.RESULT.DOESNT_EXIST;
+        if (!err) {
+          ret = this.RESULT.DOESNT_EXIST;
+        }
       }
-      exit_callback(false, ret);
+      this._auth_callback(err, ret);
     };
 
-  this.signup = function(exit_callback) {
+  this.signup = function(callback) {
+    this._signup_callback = callback;
     this.findFirst({email: this.email}
       , this
-      , this.onSignupFind
-      , exit_callback);
+      , this.onSignupFind);
   }
 
-  this.onSignupFind = function(err, record, exit_callback) {
+  this.onSignupFind = function(err, record) {
     if (err) {
-      exit_callback(err, this.RESULT_ERROR);
+      this._signup_callback(err, this.RESULT_ERROR);
       return;
     }
     if (record) {
-      exit_callback(false, this.RESULT.ALREADY_EXIST);
+      this._signup_callback(false, this.RESULT.ALREADY_EXIST);
     } else {
-      this.save(this, this.onSignupSave, exit_callback);
+      this.save(this, this.onSignupSave);
     }
   }
 
-  this.onSignupSave = function(err, record, exit_callback) {
+  this.onSignupSave = function(err, record) {
     if (err) {
-      exit_callback(err, this.RESULT.ERROR);
+      this._signup_callback(err, this.RESULT.ERROR);
     } else {
-      exit_callback(false, this.RESULT.SUCCESS);
+      this._signup_callback(false, this.RESULT.SUCCESS);
     }
   }
 }

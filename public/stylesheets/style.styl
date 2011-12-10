@@ -3,9 +3,15 @@ b-r()
   -moz-border-radius arguments
   border-radius arguments
 
+b-s()
+  -webkit-box-shadow arguments
+  -moz-box-shadow arguments
+  box-shadow arguments
+
 body
   padding 10px 50px
   font 14px Helvetica, Arial, sans-serif
+  background-color #FFF
 
 a
   color #00B7FF
@@ -18,17 +24,30 @@ input
 
 input[type="submit"], button
   background-color #EEE
-  border-color: #AAA
+  border-color #AAA
   height: 24px
 
-nav
-  padding: 5px
-  text-align: right
-  background-color: #EEE
-  border-color: #AAA
+nav, section, aside
+  padding 5px
+  background-color #FFF
+  b-r 5px
+  b-s 0 0 3px #888
+  border-color #AAA
+
+nav#main
+  text-align right
 
 nav a
-  padding: 0 10px;
+  padding 0 10px
+
+section#main
+  background-color #EEE
+  b-r 3px
+
+span.space
+  display inline-block
+  width 5px
+  height 5px
 
 form header
   font-size 18px
@@ -39,18 +58,23 @@ form div.form-field label
 form div.form-actions
   text-align right
 
+div.form-field label
+  width 100px
+  vertical-align top
+
+div.form-field input, div.form-field textarea
+  width 200px
+
+div.form-field textarea
+  height 80px
+
 #container
   margin 0 auto
   width 950px
 
-#login
+#login, div.contact-form
   padding 5px
   width 320px
   border 1px solid #AAAAAA
   b-r 5px
 
-#login div.form-field label
-  width 100px
-
-#login div.form-field input
-  width 200px

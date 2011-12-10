@@ -11,7 +11,6 @@ module.exports.getDispatcher = function(app) {
 }
 
 Dispatcher.prototype.routes = function() {
-  
   var name = arguments[0];
   var submodule = require('./' + name);
   for (var i = 1; i < arguments.length; i ++) {

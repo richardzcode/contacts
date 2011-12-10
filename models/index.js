@@ -17,6 +17,9 @@ function base(cls) {
       this[name] = field.default? field.default : null;
     }
 
+    if (!this.RESULT) {
+      this.RESULT = {};
+    }
     this.RESULT.extend({
       SUCCESS: 'OK',
       ERROR: 'ERROR'
@@ -86,23 +89,74 @@ function base(cls) {
     });
   }
 
-  _proto.findById = function(id, caller, callback, exit_callback) {
-    db = this.getDb();
-    conditions = {_id: new db.bson_serializer.ObjectID(id)};
-    this.findFirst(conditions, caller, callback, exit_callback);
+  _proto.find = function(conditions, options, caller, callback) {
+    if (options == null) {
+      options = {}
+    }
+    if (!options.type) {
+      options.type = 'all'; // all | first
+    }
+    if (options.type == 'first') {
+      options.limit = 1;
+    }
+    this.extend({
+      _find_conditions: conditions,
+      _find_options: options,
+      _find_caller: caller,
+      _find_callback: callback
+    });
+    this.getCollection(this, this.find_onCollection);
+  }
+  _proto.find_onCollection = function(err, collection) {
+      var obj = this;
+      console.log(obj);
+      if (err) {
+        obj._find_callback.call(obj._find_caller, err, null);
+      } else {
+        var cursor = collection.find(obj._find_conditions, obj._find_options.subset(['limit']));
+        switch(obj._find_options.type) {
+          case 'first':
+            cursor.nextObject(function(err, doc) {
+              obj._find_callback.call(obj._find_caller, err, doc);
+            });
+            break;
+          case 'all':
+          default:
+            cursor.nextObject(function(err, doc) {
+              obj._find_callback.call(obj._find_caller, err, doc);
+            });
+            break;
+        }
+      }
   }
 
-  _proto.findFirst = function(conditions, caller, callback, exit_callback) {
-    this.getCollection(caller, function(err, collection) {
+  _proto.findById = function(id, caller, callback) {
+    db = this.getDb();
+    conditions = {_id: new db.bson_serializer.ObjectID(id)};
+    this.find(conditions, {type: 'first'}, caller, callback);
+  }
+
+  _proto.findFirst = function(conditions, caller, callback) {
+    this.find(conditions, {type: 'first'}, caller, callback);
+  }
+  _proto.findFirst_onCollection = function(err, collection) {
+      var obj = this;
       if (err) {
-        callback.call(caller, err, null, exit_callback);
+        obj._find_callback.call(obj._find_caller, err, null);
       } else {
-        var cursor = collection.find(conditions, {limit: 1});
+        var cursor = collection.find(obj._find_conditions, {limit: 1});
         cursor.nextObject(function(err, doc) {
-          callback.call(caller, err, doc, exit_callback);
+          obj._find_callback.call(obj._find_caller, err, doc);
         });
       }
-    });
+  }
+
+  _proto.findAll = function(conditions, options, caller, callback) {
+    if (options == null) {
+      options = {};
+    }
+    options.type = 'all';
+    this.find(conditions, options, caller, callback);
   }
 
   _proto.load = function(id, callback) {
