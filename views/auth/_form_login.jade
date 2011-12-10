@@ -1,9 +1,9 @@
 - if (owner == undefined)
   owner = {email: '', password: ''}
-#login
-  form(method="POST", action="/auth/login")
-    header Sign in
-    div
+section#login
+  header Sign in
+  div.section-body
+    form(method="POST", action="/auth/login")
       div.form-field
         label Email:
         input(type="text", name="owner[email]", value=owner.email, required, autofocus)

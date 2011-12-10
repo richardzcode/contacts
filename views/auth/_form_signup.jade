@@ -1,7 +1,7 @@
-#login
-  form(method="POST", action="/auth/signup")
-    header Sign up
-    div
+section#signup
+  header Sign up
+  div.section-body
+    form(method="POST", action="/auth/signup")
       div.form-field
         label Email:
         input(type="text", name="owner[email]", value=owner.email, required, autofocus)

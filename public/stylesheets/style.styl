@@ -28,11 +28,24 @@ input[type="submit"], button
   height: 24px
 
 nav, section, aside
-  padding 5px
   background-color #FFF
   b-r 5px
   b-s 0 0 3px #888
   border-color #AAA
+
+nav, aside, div.section-body
+  padding 5px
+
+section header
+  b-r 5px 5px 0 0
+  padding 5px
+  background-color #E6E9F2
+  //background-color #D3D8E8
+  color #555
+  font-size 18px
+  text-align center
+  letter-spacing 0.1em
+  //background -webkit-linear-gradient(top, white, #D3D8E8)
 
 nav#main
   text-align right
@@ -41,6 +54,7 @@ nav a
   padding 0 10px
 
 section#main
+  padding 5px
   background-color #EEE
   b-r 3px
 
@@ -48,9 +62,6 @@ span.space
   display inline-block
   width 5px
   height 5px
-
-form header
-  font-size 18px
 
 form div.form-field label
   display inline-block
@@ -72,9 +83,7 @@ div.form-field textarea
   margin 0 auto
   width 950px
 
-#login, div.contact-form
-  padding 5px
+#login, #signup, .contact-form
   width 320px
   border 1px solid #AAAAAA
-  b-r 5px
 

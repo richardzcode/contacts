@@ -1,7 +1,7 @@
-div.contact-form
-  form(method="POST", action="/auth/login")
-    header New contact
-    div
+section.contact-form
+  header New contact
+  div.section-body
+    form(method="POST", action="/auth/login")
       div.form-field
         label Name:
         input(type="text", name="contact[name]", value=contact.name, required, autofocus)
@@ -15,4 +15,4 @@ div.contact-form
         label Content:
         textarea(name="contact[content]", value=contact.content)
       div.form-actions
-        input(type="submit", value="Login")
+        input(type="submit", value="Create")
