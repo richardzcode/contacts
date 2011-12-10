@@ -161,8 +161,16 @@ function base(cls) {
     this.find(conditions, options, caller, callback);
   }
 
-  _proto.load = function(id, callback) {
-    //
+  _proto.load = function(id, caller, callback) {
+    this._load_caller = caller;
+    this._load_callback = callback;
+    this.findById(id, this, this.load_onFind);
+  }
+  _proto.load_onFind = function(err, doc){
+    if (doc) {
+      this.bind(doc);
+    }
+    this._load_callback.call(this._load_caller, err, doc? true : false);
   }
 
   _proto.save = function(caller, callback) {
