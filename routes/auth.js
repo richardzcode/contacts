@@ -2,17 +2,22 @@ Owner = require('../models').Owner;
 
 exports.login = function(req, res, afterTask){
   var owner = new Owner();
+  var data = {};
   if (req.body && req.body.owner) {
     data = req.body.owner;
-    errors = owner.validate(data);
-    if (errors.length == 0) {
+    owner.validate(data, this, onValidate);
+  } else {
+    render();
+  }
+
+  function onValidate(errors, pass) {
+    if (pass) {
       owner.bind(data);
       owner.authenticate(onAuthenticate);
     } else {
+      req.context._error.push('Errors on validate');
       render();
     }
-  } else {
-    render();
   }
 
   function onAuthenticate(err, result) {
@@ -46,22 +51,32 @@ exports.login = function(req, res, afterTask){
 };
 
 exports.signup = function(req, res) {
-  owner = new Owner();
+  var owner = new Owner();
+  var data = {};
   if (req.body && req.body.owner) {
     data = req.body.owner;
-    errors = owner.validate(data);
-    if (errors.length > 0) {
-      req.context._error = req.context._error.concat(errors);
-    } else {
-      owner.bind(data);
-      owner.signup(onSignup);
-      return;
-    }
+    owner.validate(data, this, onValidate);
+    return;
   } 
   render();
 
+  function onValidate(errors, pass) {
+    if (pass) {
+      owner.bind(data);
+      owner.signup(onSignup);
+    } else {
+      req.context._error.push('Errors on validate');
+      render();
+    }
+  }
+
+
   function onSignup(err, result) {
-    render();
+    if (result == owner.RESULT.SUCCESS) {
+      res.redirect('/');
+    } else {
+      render();
+    }
   }
 
   function render() {

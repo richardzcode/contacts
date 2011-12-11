@@ -1,7 +1,8 @@
 var path = require('path')
   , basename = path.basename
   , fs = require('fs')
-  , settings = require('../settings.js');
+  , settings = require('../settings.js')
+  , Validator = require('./_validator.js');
 
 function base(cls) {
   var _proto = cls.prototype;
@@ -30,19 +31,15 @@ function base(cls) {
     }
   }
 
-  _proto.validate = function(data) {
-    errors = [];
-    for (var name in this.FIELDMAP) {
-      field = this.FIELDMAP[name];
-      if (field.required && !data[name]) {
-        errors[errors.length] = name + ' is required';
-      }
-    }
-    return errors;
-  }
+  _proto.validate = function(data, caller, callback) {
+    this._validate_caller = caller;
+    this._validate_callback = callback;
 
-  _proto.isValid = function(data) {
-    return (this.validate(data).length == 0);
+    var validator = new Validator(this);
+    validator.validate(data, this, this.onValidate);
+  }
+  _proto.onValidate = function(errors, pass) {
+    this._validate_callback.call(this._validate_caller, errors, pass);
   }
 
   _proto.bind = function(data) {
@@ -194,6 +191,9 @@ function base(cls) {
 var exports = module.exports;
 
 fs.readdirSync(__dirname).forEach(function(filename) {
+  if (/^_/.test(filename)) {
+    return;
+  }
   if (!/\.js$/.test(filename)) {
     return;
   }

@@ -29,5 +29,9 @@ var taskNew = module.exports.new = function(req, res, afterTask) {
   afterTask(req, res, 'contacts/new');
 }
 
+var create = module.exports.create = function(req, res, afterTask) {
+  data = req.body.contact;
+}
+
 index.require_login = true;
 taskNew.require_login = true;
