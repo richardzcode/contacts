@@ -2,7 +2,7 @@ var util = require('../lib/zzz/util.js');
 
 module.exports.name = 'Owner';
 
-module.exports.class = function(data) {
+module.exports.klass = function(data) {
   this.collection_name = 'owner';
 
   this.FIELDMAP = {

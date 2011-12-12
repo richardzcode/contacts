@@ -1,6 +1,6 @@
 module.exports.name = 'Contact';
 
-module.exports.class = function(data) {
+module.exports.klass = function(data) {
   this.collection_name = 'contact';
 
   this.FIELDMAP = {

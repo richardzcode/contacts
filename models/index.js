@@ -224,7 +224,7 @@ fs.readdirSync(__dirname).forEach(function(filename) {
 
   name = name.slice(0, name.length - 3);
   var model = require('./' + name + '.js');
-  cls = model.class;
+  cls = model.klass? model.klass : model;
   base(cls, model.FIELDMAP);
   exports[model.name? model.name : name] = cls;
 });
