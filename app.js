@@ -58,6 +58,7 @@ dispatcher.routes('owner'
 dispatcher.routes('contact'
   , ['get', '/contacts', 'index']
   , ['get', '/contacts/new', 'new']
+  , ['post', '/contacts/create', 'create']
 );
 
 app.listen(3000);

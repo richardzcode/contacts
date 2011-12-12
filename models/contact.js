@@ -5,6 +5,7 @@ module.exports.class = function(data) {
 
   this.FIELDMAP = {
     name: {default: '', type: 'string', required: true},
+    owner_id: {default: '', type: 'ObjectId', required: true},
     primary_contact_type: {default: '', type: 'string', required: true}, // email|phone|skype
     primary_contact: {default: '', type: 'string', required: true},
     subject: {default: '', type: 'string'},

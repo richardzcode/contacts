@@ -5,10 +5,10 @@ section#login
   div.section-body
     form(method="POST", action="/auth/login")
       div.form-field
-        label Email:
+        label Email
         input(type="text", name="owner[email]", value=owner.email, required, autofocus)
       div.form-field
-        label Password:
+        label Password
         input(type="password", name="owner[password]", required)
       div.form-actions
         input(type="submit", value="Login")

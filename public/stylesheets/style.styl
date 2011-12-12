@@ -58,20 +58,28 @@ section#main
   background-color #EEE
   b-r 3px
 
+dt
+  display inline-block
+  text-transform capitalize
+
+dd
+  display inline-block
+
 span.space
   display inline-block
   width 5px
   height 5px
 
-form div.form-field label
+div.form-field label
   display inline-block
 
-form div.form-actions
+div.form-actions
   text-align right
 
 div.form-field label
-  width 100px
+  width 80px
   vertical-align top
+  margin-top 5px
 
 div.form-field input, div.form-field textarea
   width 200px
@@ -83,7 +91,8 @@ div.form-field textarea
   margin 0 auto
   width 950px
 
-#login, #signup, .contact-form
+#login, #signup
   width 320px
-  border 1px solid #AAAAAA
 
+.contact-form
+  width 400px

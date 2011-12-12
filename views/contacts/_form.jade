@@ -1,18 +1,21 @@
 section.contact-form
   header New contact
   div.section-body
-    form(method="POST", action="/auth/login")
+    form(method="POST", action="/contacts/create")
       div.form-field
-        label Name:
+        label Name
         input(type="text", name="contact[name]", value=contact.name, required, autofocus)
       div.form-field
-        label Contact:
+        label Contact
         input(type="text", name="contact[primary_contact]", value=contact.primary_contact, required)
+        select(name="contact[primary_contact_type]")
+          option(value="email") Email
+          option(value="phone") Phone
       div.form-field
-        label Subject:
+        label Subject
         input(type="text", name="contact[subject]", value=contact.subject)
       div.form-field
-        label Content:
+        label Content
         textarea(name="contact[content]", value=contact.content)
       div.form-actions
         input(type="submit", value="Create")

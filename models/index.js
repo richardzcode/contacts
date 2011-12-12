@@ -32,9 +32,10 @@ function base(cls) {
       }
       // Deal with shortcuts for required and unique validate
       if (field.required) {
-        field.rules.push({
-          type: 'required'
-        });
+        field.rules.push({type: 'required'});
+      }
+      if (field.unique) {
+        field.rules.push({type: 'unique'});
       }
     }
 
@@ -109,6 +110,11 @@ function base(cls) {
     });
   }
 
+  _proto._serializedId = function(id) {
+    var db = this.getDb();
+    return new db.bson_serializer.ObjectID(id);
+  }
+
   _proto.find = function(conditions, options, caller, callback) {
     if (options == null) {
       options = {}
@@ -141,8 +147,8 @@ function base(cls) {
             break;
           case 'all':
           default:
-            cursor.nextObject(function(err, doc) {
-              obj._find_callback.call(obj._find_caller, err, doc);
+            cursor.toArray(function(err, records) {
+              obj._find_callback.call(obj._find_caller, err, records);
             });
             break;
         }
@@ -151,23 +157,12 @@ function base(cls) {
 
   _proto.findById = function(id, caller, callback) {
     db = this.getDb();
-    conditions = {_id: new db.bson_serializer.ObjectID(id)};
+    conditions = {_id: this._serializedId(id)};
     this.find(conditions, {type: 'first'}, caller, callback);
   }
 
   _proto.findFirst = function(conditions, caller, callback) {
     this.find(conditions, {type: 'first'}, caller, callback);
-  }
-  _proto.findFirst_onCollection = function(err, collection) {
-      var obj = this;
-      if (err) {
-        obj._find_callback.call(obj._find_caller, err, null);
-      } else {
-        var cursor = collection.find(obj._find_conditions, {limit: 1});
-        cursor.nextObject(function(err, doc) {
-          obj._find_callback.call(obj._find_caller, err, doc);
-        });
-      }
   }
 
   _proto.findAll = function(conditions, options, caller, callback) {
@@ -191,20 +186,24 @@ function base(cls) {
   }
 
   _proto.save = function(caller, callback) {
-    collection = this.getCollection(caller, function(err, collection) {
-      if (err) {
-        callback.call(caller, err, null);
-      } else {
-        collection.insert(this.asRecord(), function(err, doc) {
-          if (err) {
-            callback.call(caller, err, null);
-          } else {
-            caller.bind(doc);
-            callback.call(caller, err, doc);
-          }
-        });
-      }
-    });
+    this._save_caller = caller;
+    this._save_callback = callback;
+    collection = this.getCollection(this, this.save_onCollection);
+  }
+  _proto.save_onCollection = function(err, collection) {
+    var obj = this;
+    if (err) {
+      this._save_callback.call(this._save_caller, err, null);
+    } else {
+      collection.insert(this.asRecord(), function(err, doc) {
+        if (err) {
+          obj._save_callback.call(obj._save_caller, err, null);
+        } else {
+          obj.bind(doc);
+          obj._save_callback.call(obj._save_caller, err, obj);
+        }
+      });
+    }
   }
 }
 

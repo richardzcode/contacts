@@ -6,7 +6,7 @@ module.exports.class = function(data) {
   this.collection_name = 'owner';
 
   this.FIELDMAP = {
-    email: {default: '', type: 'email', required: true},
+    email: {default: '', type: 'email', required: true, unique: true},
     password: {default: '', type: 'password', required: true},
     password_digest: {default: '', type: 'password_digest'}
   }
@@ -65,7 +65,7 @@ module.exports.class = function(data) {
     }
   }
 
-  this.onSignupSave = function(err, record) {
+  this.onSignupSave = function(err, obj) {
     if (err) {
       this._signup_callback(err, this.RESULT.ERROR);
     } else {

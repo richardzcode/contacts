@@ -8,11 +8,14 @@ section header{-webkit-border-radius:5px 5px 0 0;-moz-border-radius:5px 5px 0 0;
 nav#main{text-align:right}
 nav a{padding:0 10px}
 section#main{padding:5px;background-color:#eee;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px}
+dt{display:inline-block;text-transform:capitalize}
+dd{display:inline-block}
 span.space{display:inline-block;width:5px;height:5px}
-form div.form-field label{display:inline-block}
-form div.form-actions{text-align:right}
-div.form-field label{width:100px;vertical-align:top}
+div.form-field label{display:inline-block}
+div.form-actions{text-align:right}
+div.form-field label{width:80px;vertical-align:top;margin-top:5px}
 div.form-field input,div.form-field textarea{width:200px}
 div.form-field textarea{height:80px}
 #container{margin:0 auto;width:950px}
-#login,#signup,.contact-form{width:320px;border:1px solid #aaa}
+#login,#signup{width:320px}
+.contact-form{width:400px}

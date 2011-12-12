@@ -2,22 +2,11 @@ Owner = require('../models').Owner;
 
 exports.login = function(req, res, afterTask){
   var owner = new Owner();
-  var data = {};
   if (req.body && req.body.owner) {
-    data = req.body.owner;
-    owner.validate(data, this, onValidate);
+    owner.bind(req.body.owner);
+    owner.authenticate(onAuthenticate);
   } else {
     render();
-  }
-
-  function onValidate(errors, pass) {
-    if (pass) {
-      owner.bind(data);
-      owner.authenticate(onAuthenticate);
-    } else {
-      req.context._error.push('Errors on validate');
-      render();
-    }
   }
 
   function onAuthenticate(err, result) {
@@ -41,7 +30,7 @@ exports.login = function(req, res, afterTask){
   }
 
   function render() {
-    ctx = req.context.extend({
+    req.context.extend({
       _page_title: 'Sign In',
       owner: owner
     });
@@ -50,22 +39,23 @@ exports.login = function(req, res, afterTask){
   }
 };
 
-exports.signup = function(req, res) {
+exports.signup = function(req, res, afterTask) {
   var owner = new Owner();
-  var data = {};
   if (req.body && req.body.owner) {
-    data = req.body.owner;
+    var data = req.body.owner;
+    this._data = data;
     owner.validate(data, this, onValidate);
-    return;
-  } 
-  render();
+  } else {
+    render();
+  }
 
-  function onValidate(errors, pass) {
+  function onValidate(error, pass) {
     if (pass) {
-      owner.bind(data);
+      var owner = new Owner();
+      owner.bind(this._data);
       owner.signup(onSignup);
     } else {
-      req.context._error.push('Errors on validate');
+      req.context._error.merge(error);
       render();
     }
   }
@@ -80,12 +70,12 @@ exports.signup = function(req, res) {
   }
 
   function render() {
-    ctx = req.context.extend({
+    req.context.extend({
       _page_title: 'Sign Up',
       owner: owner
     });
 
-    res.render('auth/signup', ctx);
+    afterTask(req, res, 'auth/signup');
   }
 }
 
