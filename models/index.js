@@ -8,6 +8,17 @@ function base(cls) {
   var _proto = cls.prototype;
 
   _proto.init = function(data) {
+    // FIELDMAP:
+    // field: {
+    //   default: ..,
+    //   type: 'ObjectId|string|text|password|integer|float|datetime',
+    //   rules: [
+    //     {
+    //       type: 'required|unique|integer|number|datetime|regex|...',
+    //       message: '%s is required'
+    //       value: ..,
+    //     }
+    //   ]
     this._id = null;
     this.FIELDMAP._id = {
       default: null,
@@ -16,6 +27,15 @@ function base(cls) {
     for (var name in this.FIELDMAP) {
       field = this.FIELDMAP[name];
       this[name] = field.default? field.default : null;
+      if (field.rules == undefined) {
+        field.rules = [];
+      }
+      // Deal with shortcuts for required and unique validate
+      if (field.required) {
+        field.rules.push({
+          type: 'required'
+        });
+      }
     }
 
     if (!this.RESULT) {
