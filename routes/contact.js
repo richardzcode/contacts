@@ -46,14 +46,14 @@ var create = module.exports.create = function(req, res, afterTask) {
       contact.bind(this._data);
       contact.save(this, onSave);
     } else {
-      ctx._error.merge(error);
+      ctx.error(error);
       render(null);
     }
   }
 
   function onSave(err, obj) {
     if (err) {
-      req.context._error.push(err);
+      req.context.error(err);
       render(null);
     } else {
       render(obj);

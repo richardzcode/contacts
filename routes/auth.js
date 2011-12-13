@@ -19,10 +19,10 @@ exports.login = function(req, res, afterTask){
           res.redirect('/owner/profile');
           return;
         case owner.RESULT.DOESNT_EXIST:
-          req.context._error.push('The account doesn\'t exist.');
+          req.context.error('The account doesn\'t exist.');
           break;
         case owner.RESULT.WRONG_PASSWORD:
-          req.context._error.push('Wrong password');
+          req.context.error('Wrong password');
           break;
       }
     }
@@ -55,7 +55,7 @@ exports.signup = function(req, res, afterTask) {
       owner.bind(this._data);
       owner.signup(onSignup);
     } else {
-      req.context._error.merge(error);
+      req.context.error(error);
       render();
     }
   }
@@ -63,6 +63,7 @@ exports.signup = function(req, res, afterTask) {
 
   function onSignup(err, result) {
     if (result == owner.RESULT.SUCCESS) {
+      req.context.info('Thank you for join us!');
       res.redirect('/');
     } else {
       render();

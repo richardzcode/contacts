@@ -53,11 +53,15 @@ Dispatcher.prototype.routes = function() {
   }
 
   function afterTask(req, res, template) {
-      if (template) {
-        res.render(template, req.context);
-      } else {
-        req.context._error.push('No template for render');
-        res.redirect('/');
-      }
+    var ctx = req.context;
+    if (template) {
+      ctx._error = ctx.error();
+      ctx._info = ctx.info();
+      ctx.clearFlash();
+      res.render(template, req.context);
+    } else {
+      ctx.error('No template for render');
+      res.redirect('/');
+    }
   }
 }
