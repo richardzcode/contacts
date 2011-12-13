@@ -9,7 +9,9 @@ module.exports.klass = function(data) {
     primary_contact_type: {default: '', type: 'string', required: true}, // email|phone|skype
     primary_contact: {default: '', type: 'string', required: true},
     subject: {default: '', type: 'string'},
-    content: {default: '', type: 'text'}
+    content: {default: '', type: 'text'},
+    created_on: {default: new Date(), type: 'datetime'},
+    modified_on: {default: new Date(), type: 'datetime'}
   }
 
   if (this.init) {

@@ -7,7 +7,7 @@ var index = module.exports.index = function(req, res, afterTask) {
   });
 
   var contact = new Contact();
-  contact.findAll({owner_id: ctx._auth_owner._id}, {}, null, onFind);
+  contact.findAll({owner_id: ctx._auth_owner._id}, {sort: {'$natural': -1}}, null, onFind);
 
   function onFind(err, records) {
     console.log(err);

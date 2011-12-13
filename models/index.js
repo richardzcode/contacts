@@ -138,7 +138,11 @@ function base(cls) {
       if (err) {
         obj._find_callback.call(obj._find_caller, err, null);
       } else {
-        var cursor = collection.find(obj._find_conditions, obj._find_options.subset(['limit']));
+        var options = obj._find_options;
+        var cursor = collection.find(obj._find_conditions, options);
+        //if (options.sort) {
+        //  cursor = cursor.sort({'$natural': -1});
+        //}
         switch(obj._find_options.type) {
           case 'first':
             cursor.nextObject(function(err, doc) {

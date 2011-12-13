@@ -8,8 +8,8 @@ section header{-webkit-border-radius:5px 5px 0 0;-moz-border-radius:5px 5px 0 0;
 nav#main{text-align:right}
 nav a{padding:0 10px}
 section#main{padding:5px;background-color:#eee;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px}
-dt{display:inline-block;text-transform:capitalize}
-dd{display:inline-block}
+dt{display:inline-block;text-transform:capitalize;width:80px}
+dd{display:inline-block;-webkit-margin-start:0}
 span.space{display:inline-block;width:5px;height:5px}
 div.form-field label{display:inline-block}
 div.form-actions{text-align:right}
@@ -19,3 +19,4 @@ div.form-field textarea{height:80px}
 #container{margin:0 auto;width:950px}
 #login,#signup{width:320px}
 .contact-form{width:400px}
+.contact-read{display:inline-block;width:302px;margin:5px;background-color:#fff;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:0 0 3px #888;-moz-box-shadow:0 0 3px #888;box-shadow:0 0 3px #888;border-color:#aaa}

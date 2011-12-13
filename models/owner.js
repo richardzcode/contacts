@@ -8,7 +8,9 @@ module.exports.klass = function(data) {
   this.FIELDMAP = {
     email: {default: '', type: 'email', required: true, unique: true},
     password: {default: '', type: 'password', required: true},
-    password_digest: {default: '', type: 'password_digest'}
+    password_digest: {default: '', type: 'password_digest'},
+    created_on: {default: new Date(), type: 'datetime'},
+    modified_on: {default: new Date(), type: 'datetime'}
   }
 
   this.RESULT = {

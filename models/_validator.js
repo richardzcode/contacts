@@ -30,16 +30,11 @@ var validator = module.exports = function(model) {
     if (err) {
       this._validate_errors.push(err);
     }
-    this._validate_pending -= 1;
-    if (this._validate_pending < 0) {
-      console.log("Validate pending shouldnt be less than 0");
-    }
 
     if (this._pending_rules.length == 0) {
       this._validate_callback.call(this._validate_caller, this._validate_errors, (this._validate_errors.length == 0));
     } else {
       var rule = this._pending_rules.shift();
-      console.log(rule);
       var fn = this[rule.type];
       if (fn) {
         fn.call(this, rule);
@@ -89,7 +84,6 @@ _proto.unique = function(rule) {
   if (data._id) {
     conditions._id = {'$ne': this._validate_model._serializedId(data._id)}
   }
-  console.log(conditions);
   this._validate_model.findFirst(conditions, this, this.unique_onFind);
 };
 _proto.unique_onFind = function(err, doc) {

@@ -1,6 +1,9 @@
-section.contact-form
+section.contact-read
   header= contact.name
   div.section-body
     dl
       dt= contact.primary_contact_type
       dd= contact.primary_contact
+    dl
+      dt Created
+      dd= contact.created_on.toDateString()
