@@ -22,7 +22,7 @@ A context object is added to each request. It is used for template rendering.
 
 ### Flash message
 
-Context object handles flash messages. Flash message is the kind of message that generated on business logic layer. Supposed to be displayed to user once, and only once. It need to handle case of redirect. Here we use session object to persist messages util the are renderred once.
+Context object handles flash messages. Flash message is a kind of message that generated on business logic layer, supposed to be displayed to user once, and only once. It needs to handle case of redirect. Here we use session object to persist messages util they are renderred once.
 
 Currently two type: error, info.
 
@@ -54,6 +54,7 @@ contact.save(caller, callback);
 </pre>
 
 Each model only need to define FIELD_MAP to have basic methods
+
 * validate
 * bind
 * find
