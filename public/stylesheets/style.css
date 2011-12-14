@@ -2,12 +2,14 @@ body{padding:10px 50px;font:14px Helvetica,Arial,sans-serif;background-color:#ff
 a{color:#00b7ff}
 input{margin:3px;border:1px solid;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;height:18px}
 input[type="submit"],button{background-color:#eee;border-color:#aaa;height:24px}
-nav,section,aside{background-color:#fff;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:0 0 3px #888;-moz-box-shadow:0 0 3px #888;box-shadow:0 0 3px #888;border-color:#aaa}
+nav,section,aside{background-color:#fff;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:1px 1px 3px #888;-moz-box-shadow:1px 1px 3px #888;box-shadow:1px 1px 3px #888;border-color:#aaa}
 nav,aside,div.section-body{padding:5px}
-section header{-webkit-border-radius:5px 5px 0 0;-moz-border-radius:5px 5px 0 0;border-radius:5px 5px 0 0;padding:5px;background-color:#e6e9f2;color:#555;font-size:18px;text-align:center;letter-spacing:.1em}
+section header{-webkit-border-radius:5px 5px 0 0;-moz-border-radius:5px 5px 0 0;border-radius:5px 5px 0 0;padding:5px;background:-webkit-linear-gradient(top, #FFF, #e6e9f2);background:-moz-linear-gradient(top, #FFF, #e6e9f2);background:linear-gradient(top, #e6e9f2);background-color:#e6e9f2;color:#555;font-size:18px;text-align:center;letter-spacing:.1em}
+div.section-title{font-size:16px;letter-spacing:.1em}
+div.line{margin:0 50px;border-bottom:1px solid #888}
 nav#main{text-align:right}
-nav a{padding:0 10px}
-section#main{padding:5px;background-color:#eee;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px}
+nav a,aside a{padding:0 10px}
+section#main{padding:5px 5px 20px 5px;background:-webkit-linear-gradient(top, #FFF, #eee);background:-moz-linear-gradient(top, #FFF, #eee);background:linear-gradient(top, #eee);background-color:#eee;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px}
 dt{display:inline-block;text-transform:capitalize;width:80px}
 dd{display:inline-block;-webkit-margin-start:0}
 span.space{display:inline-block;width:5px;height:5px}
@@ -19,4 +21,4 @@ div.form-field textarea{height:80px}
 #container{margin:0 auto;width:950px}
 #login,#signup{width:320px}
 .contact-form{width:400px}
-.contact-read{display:inline-block;width:302px;margin:5px;background-color:#fff;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:0 0 3px #888;-moz-box-shadow:0 0 3px #888;box-shadow:0 0 3px #888;border-color:#aaa}
+.contact-read{display:inline-block;width:302px;margin:5px;background-color:#fff;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:1px 1px 3px #888;-moz-box-shadow:1px 1px 3px #888;box-shadow:1px 1px 3px #888;border-color:#aaa}

@@ -8,6 +8,30 @@ b-s()
   -moz-box-shadow arguments
   box-shadow arguments
 
+replace(expr, str, val)
+  expr = clone(expr)
+  for e, i in expr
+    if length(e) > 1
+      expr[i] = replace(e, str, val)
+    else
+      if str == e
+        expr[i] = val
+  expr
+
+l-g(stop_color)
+  prop = current-property[0]
+  val = current-property[1]
+  webkit = '-webkit-linear-gradient(top, #FFF, %s)' % (stop_color)
+  moz = '-moz-linear-gradient(top, #FFF, %s)' % (stop_color)
+  w3c = 'linear-gradient(top, %s)' % (stop_color)
+  add-property(prop, replace(val, '__CALL__', webkit))
+  add-property(prop, replace(val, '__CALL__', moz))
+  w3c
+
+bg-l-g(color)
+  background l-g(color)
+  background-color color
+
 body
   padding 10px 50px
   font 14px Helvetica, Arial, sans-serif
@@ -30,7 +54,7 @@ input[type="submit"], button
 nav, section, aside
   background-color #FFF
   b-r 5px
-  b-s 0 0 3px #888
+  b-s 1px 1px 3px #888
   border-color #AAA
 
 nav, aside, div.section-body
@@ -39,23 +63,29 @@ nav, aside, div.section-body
 section header
   b-r 5px 5px 0 0
   padding 5px
-  background-color #E6E9F2
-  //background-color #D3D8E8
+  bg-l-g (#E6E9F2)
   color #555
   font-size 18px
   text-align center
   letter-spacing 0.1em
-  //background -webkit-linear-gradient(top, white, #D3D8E8)
+
+div.section-title
+  font-size 16px
+  letter-spacing 0.1em
+
+div.line
+  margin 0 50px
+  border-bottom 1px solid #888
 
 nav#main
   text-align right
 
-nav a
+nav a, aside a
   padding 0 10px
 
 section#main
-  padding 5px
-  background-color #EEE
+  padding 5px 5px 20px 5px
+  bg-l-g (#EEE)
   b-r 3px
 
 dt
@@ -105,5 +135,5 @@ div.form-field textarea
   margin 5px
   background-color #FFF
   b-r 5px
-  b-s 0 0 3px #888
+  b-s 1px 1px 3px #888
   border-color #AAA

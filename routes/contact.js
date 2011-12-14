@@ -1,10 +1,10 @@
 var Contact = require('../models').Contact;
 
 var index = module.exports.index = function(req, res, afterTask) {
-  var ctx = req.context;
-  ctx.extend({
+  var ctx = req.context.extend({
     _page_title: 'Contacts',
   });
+  ctx.js('contact.js');
 
   var contact = new Contact();
   contact.findAll({owner_id: ctx._auth_owner._id}, {sort: {'$natural': -1}}, null, onFind);

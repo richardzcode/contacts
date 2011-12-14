@@ -10,6 +10,7 @@ module.exports.klass = function(data) {
     primary_contact: {default: '', type: 'string', required: true},
     subject: {default: '', type: 'string'},
     content: {default: '', type: 'text'},
+    tags: {default: [], type: 'array'},
     created_on: {default: new Date(), type: 'datetime'},
     modified_on: {default: new Date(), type: 'datetime'}
   }
