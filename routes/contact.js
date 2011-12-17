@@ -1,10 +1,16 @@
 var Contact = require('../models').Contact;
 
+function prepare(req, action) {
+  var ctx = req.context;
+  ctx.js('contact.js');
+  ctx.css('contact.css');
+}
+
 var index = module.exports.index = function(req, res, afterTask) {
   var ctx = req.context.extend({
     _page_title: 'Contacts',
   });
-  ctx.js('contact.js');
+  prepare(req, 'index');
 
   var contact = new Contact();
   contact.findAll({owner_id: ctx._auth_owner._id}, {sort: {'$natural': -1}}, null, onFind);
@@ -25,6 +31,7 @@ var taskNew = module.exports.new = function(req, res, afterTask) {
     _page_title: 'Create contact',
     contact: new Contact()
   });
+  prepare(req, 'new');
   afterTask(req, res, 'contacts/new');
 }
 
@@ -33,8 +40,9 @@ var create = module.exports.create = function(req, res, afterTask) {
   ctx.extend({
     _page_title: 'Create contact'
   });
-  var owner = ctx._auth_owner;
+  prepare(req, 'create');
 
+  var owner = ctx._auth_owner;
   var data = req.body.contact;
   data.owner_id = ctx._auth_owner._id;
   this._data = data;

@@ -1,0 +1,34 @@
+b-r()
+  -webkit-border-radius arguments
+  -moz-border-radius arguments
+  border-radius arguments
+
+b-s()
+  -webkit-box-shadow arguments
+  -moz-box-shadow arguments
+  box-shadow arguments
+
+replace(expr, str, val)
+  expr = clone(expr)
+  for e, i in expr
+    if length(e) > 1
+      expr[i] = replace(e, str, val)
+    else
+      if str == e
+        expr[i] = val
+  expr
+
+l-g(stop_color)
+  prop = current-property[0]
+  val = current-property[1]
+  webkit = '-webkit-linear-gradient(top, #FFF, %s)' % (stop_color)
+  moz = '-moz-linear-gradient(top, #FFF, %s)' % (stop_color)
+  w3c = 'linear-gradient(top, %s)' % (stop_color)
+  add-property(prop, replace(val, '__CALL__', webkit))
+  add-property(prop, replace(val, '__CALL__', moz))
+  w3c
+
+bg-l-g(color)
+  background l-g(color)
+  background-color color
+

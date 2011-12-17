@@ -1,0 +1,11 @@
+.contact-read{display:inline-block;width:302px;margin:5px;background-color:#fff;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:1px 1px 3px #888;-moz-box-shadow:1px 1px 3px #888;box-shadow:1px 1px 3px #888;border-color:#aaa;vertical-align:top;}
+.contact-read dl{margin:.5em 0;}
+.contact-read dl dt{display:inline-block;text-transform:capitalize;width:80px}
+.contact-read dl dd{display:inline-block;margin-left:0}
+.contact-read div.toggle{text-align:right;font-size:.8em}
+.contact-read .message{display:none;}
+.contact-read .message .subject{font-style:italic}
+.contact-read .message .content{margin-left:16px}
+.contact-form{width:400px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:1px 1px 3px #888;-moz-box-shadow:1px 1px 3px #888;box-shadow:1px 1px 3px #888;border-color:#aaa}
+footer{min-height:18px;}
+footer unread{border-color:#f00;border-width:2px}

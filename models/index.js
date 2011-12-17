@@ -209,6 +209,23 @@ function base(cls) {
       });
     }
   }
+  _proto.push = function(conditions, pairs, caller, callback) {
+    this._push_conditions = conditions;
+    this._push_pairs = pairs;
+    this._push_caller = caller;
+    this._push_callback = callback;
+    collection = this.getCollection(this, this.push_onCollection);
+  }
+  _proto.push_onCollection = function(err, collection) {
+    var obj = this;
+    if(err) {
+      this._push_callback.call(this._push_caller, err, false);
+    } else {
+      collection.update(this._push_conditions, {'$push': pairs}, function(err) {
+        this._push_callback.call(this._push_caller, err, err? false : true);
+      });
+    }
+  }
 }
 
 var exports = module.exports;

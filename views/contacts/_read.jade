@@ -1,4 +1,9 @@
-section.contact-read
+if contact.read
+  footer_class = ''
+else
+  footer_class = 'unread'
+
+div.contact-read
   header= contact.name
   div.section-body
     dl
@@ -7,3 +12,12 @@ section.contact-read
     dl
       dt Created
       dd= contact.created_on.toDateString()
+    div.toggle
+      a message >>
+    div.message
+      div.subject= contact.subject
+      div.content= contact.content
+
+  footer(class=footer_class)
+    div
+      span= contact.tags

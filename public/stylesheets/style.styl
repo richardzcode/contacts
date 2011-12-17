@@ -1,36 +1,4 @@
-b-r()
-  -webkit-border-radius arguments
-  -moz-border-radius arguments
-  border-radius arguments
-
-b-s()
-  -webkit-box-shadow arguments
-  -moz-box-shadow arguments
-  box-shadow arguments
-
-replace(expr, str, val)
-  expr = clone(expr)
-  for e, i in expr
-    if length(e) > 1
-      expr[i] = replace(e, str, val)
-    else
-      if str == e
-        expr[i] = val
-  expr
-
-l-g(stop_color)
-  prop = current-property[0]
-  val = current-property[1]
-  webkit = '-webkit-linear-gradient(top, #FFF, %s)' % (stop_color)
-  moz = '-moz-linear-gradient(top, #FFF, %s)' % (stop_color)
-  w3c = 'linear-gradient(top, %s)' % (stop_color)
-  add-property(prop, replace(val, '__CALL__', webkit))
-  add-property(prop, replace(val, '__CALL__', moz))
-  w3c
-
-bg-l-g(color)
-  background l-g(color)
-  background-color color
+@import "common"
 
 body
   padding 10px 50px
@@ -51,16 +19,22 @@ input[type="submit"], button
   border-color #AAA
   height: 24px
 
-nav, section, aside
-  background-color #FFF
+nav, aside
+  padding 5px
   b-r 5px
   b-s 1px 1px 3px #888
+  background-color #FFF
   border-color #AAA
+  a
+    padding 0 10px
 
-nav, aside, div.section-body
+nav#main-menu
+    text-align right
+
+div.section-body
   padding 5px
 
-section header
+header
   b-r 5px 5px 0 0
   padding 5px
   bg-l-g (#E6E9F2)
@@ -68,6 +42,11 @@ section header
   font-size 18px
   text-align center
   letter-spacing 0.1em
+
+footer
+  b-r 0 0 5px 5px
+  padding 5px
+  border-top 1px solid #AAA
 
 div.section-title
   font-size 16px
@@ -77,47 +56,27 @@ div.line
   margin 0 50px
   border-bottom 1px solid #888
 
-nav#main
-  text-align right
-
-nav a, aside a
-  padding 0 10px
-
 section#main
   padding 5px 5px 20px 5px
-  bg-l-g (#EEE)
-  b-r 3px
-
-dt
-  display inline-block
-  text-transform capitalize
-  width 80px
-
-dd
-  display inline-block
-  -webkit-margin-start 0
 
 span.space
   display inline-block
   width 5px
   height 5px
 
-div.form-field label
-  display inline-block
+div.form-field
+  label
+    display inline-block
+    width 80px
+    vertical-align top
+    margin-top 5px
+  input, textarea
+    width 200px
+  textarea
+    height 80px
 
 div.form-actions
   text-align right
-
-div.form-field label
-  width 80px
-  vertical-align top
-  margin-top 5px
-
-div.form-field input, div.form-field textarea
-  width 200px
-
-div.form-field textarea
-  height 80px
 
 #container
   margin 0 auto
@@ -125,15 +84,6 @@ div.form-field textarea
 
 #login, #signup
   width 320px
-
-.contact-form
-  width 400px
-
-.contact-read
-  display inline-block
-  width 302px
-  margin 5px
-  background-color #FFF
   b-r 5px
   b-s 1px 1px 3px #888
   border-color #AAA
