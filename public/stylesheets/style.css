@@ -7,7 +7,7 @@ nav a,aside a{padding:0 10px}
 nav#main-menu{text-align:right}
 div.section-body{padding:5px}
 header{-webkit-border-radius:5px 5px 0 0;-moz-border-radius:5px 5px 0 0;border-radius:5px 5px 0 0;padding:5px;background:-webkit-linear-gradient(top, #FFF, #e6e9f2);background:-moz-linear-gradient(top, #FFF, #e6e9f2);background:linear-gradient(top, #e6e9f2);background-color:#e6e9f2;color:#555;font-size:18px;text-align:center;letter-spacing:.1em}
-footer{-webkit-border-radius:0 0 5px 5px;-moz-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;padding:5px;border-top:1px solid #aaa}
+footer{-webkit-border-radius:0 0 5px 5px;-moz-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;padding:5px 10px;border-top:1px solid #aaa}
 div.section-title{font-size:16px;letter-spacing:.1em}
 div.line{margin:0 50px;border-bottom:1px solid #888}
 section#main{padding:5px 5px 20px 5px}

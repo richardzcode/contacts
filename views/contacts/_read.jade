@@ -13,11 +13,16 @@ div.contact-read
       dt Created
       dd= contact.created_on.toDateString()
     div.toggle
-      a message >>
+      a more >>
     div.message
       div.subject= contact.subject
       div.content= contact.content
 
   footer(class=footer_class)
     div
-      span= contact.tags
+      if contact.tags.length > 0
+        each tag in contact.tags
+          span.tag= tag
+            span.tag-remove x
+      else
+        span.tag No tag
