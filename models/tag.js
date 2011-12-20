@@ -5,6 +5,7 @@ module.exports.klass = function(data) {
 
   this.FIELDMAP = {
     name: {default: '', type: 'string', required: true},
+    owner_id: {default: '', type: 'ObjectId', required: true},
     color: {default: default_color, type: 'string', required: true},
     created_on: {default: new Date(), type: 'datetime'},
     modified_on: {default: new Date(), type: 'datetime'}

@@ -1,8 +1,9 @@
-!!!
+!!! 5
 html
   head
     title= _page_title + ' - ' + _app_title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/smoothness/jquery-ui-1.8.16.custom.css')
     - if (_css)
       - _css.forEach(function(item) {
         link(rel='stylesheet', href='/stylesheets/' + item)
@@ -15,6 +16,8 @@ html
       include _messages
       != body
     script(type='text/javascript', src='/javascripts/jquery-1.7.1.min.js')
+    script(type='text/javascript', src='/javascripts/jquery-ui-1.8.16.custom.min.js')
+    script(type='text/javascript', src='/javascripts/common.js')
     - if (_js)
       - _js.forEach(function(item) {
         script(type='text/javascript', src='/javascripts/' + item)

@@ -1,4 +1,6 @@
-var Contact = require('../models').Contact;
+var models = require('../models');
+var Contact = models.Contact;
+var Tag = models.Tag;
 
 function prepare(req, action) {
   var ctx = req.context;
@@ -13,15 +15,28 @@ var index = module.exports.index = function(req, res, afterTask) {
   prepare(req, 'index');
 
   var contact = new Contact();
-  contact.findAll({owner_id: ctx._auth_owner._id}, {sort: {'$natural': -1}}, null, onFind);
+  contact.findAll({owner_id: ctx._auth_owner._id}, {sort: {'$natural': -1}}, null, onFindContact);
 
-  function onFind(err, records) {
-    console.log(err);
+  function onFindContact(err, records) {
     var contacts = [];
     for (var i = 0; i < records.length; i ++) {
       contacts.push(new Contact(records[i]));
     }
-    req.context.contacts = contacts;
+    var ctx = req.context.extend({
+      contacts: contacts
+    });
+    var tag = new Tag();
+    tag.findAll({owner_id: ctx._auth_owner._id}, {}, null, onFindTag);
+  }
+
+  function onFindTag(err, records) {
+    var tags = [];
+    for (var i = 0; i < records.length; i ++) {
+      tags.push(new Tag(records[i]));
+    }
+    req.context.extend({
+      tags: tags
+    });
     afterTask(req, res, 'contacts/index');
   }
 }

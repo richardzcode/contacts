@@ -1,7 +1,7 @@
 body{padding:10px 50px;font:14px Helvetica,Arial,sans-serif;background-color:#fff}
 a{color:#00b7ff}
-input{margin:3px;border:1px solid;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;height:18px}
-input[type="submit"],button{background-color:#eee;border-color:#aaa;height:24px}
+input,input[type="submit"],button{margin:3px;border:1px solid;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;height:18px}
+input[type="submit"],button{background-color:#eee;border-color:#aaa;height:22px}
 nav,aside{padding:5px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:1px 1px 3px #888;-moz-box-shadow:1px 1px 3px #888;box-shadow:1px 1px 3px #888;background-color:#fff;border-color:#aaa;}
 nav a,aside a{padding:0 10px}
 nav#main-menu{text-align:right}
@@ -18,3 +18,6 @@ div.form-field textarea{height:80px}
 div.form-actions{text-align:right}
 #container{margin:0 auto;width:950px}
 #login,#signup{width:320px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:1px 1px 3px #888;-moz-box-shadow:1px 1px 3px #888;box-shadow:1px 1px 3px #888;border-color:#aaa}
+.ui-button{margin-left:-1px}
+.ui-button-icon-only .ui-button-text{padding:.35em}
+.ui-autocomplete-input{margin:0}
