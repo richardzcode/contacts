@@ -209,22 +209,28 @@ function base(cls) {
       });
     }
   }
-  _proto.push = function(conditions, pairs, caller, callback) {
-    this._push_conditions = conditions;
-    this._push_pairs = pairs;
-    this._push_caller = caller;
-    this._push_callback = callback;
-    collection = this.getCollection(this, this.push_onCollection);
+
+  _proto.update = function(conditions, objNew, caller, callback) {
+    this._update_conditions = conditions;
+    this._update_objNew = objNew;
+    this._update_caller = caller;
+    this._update_callback = callback;
+    collection = this.getCollection(this, this.update_onCollection);
   }
-  _proto.push_onCollection = function(err, collection) {
+  _proto.update_onCollection = function(err, collection) {
     var obj = this;
     if(err) {
-      this._push_callback.call(this._push_caller, err, false);
+      this._update_callback.call(this._update_caller, err, false);
     } else {
-      collection.update(this._push_conditions, {'$push': pairs}, function(err) {
-        this._push_callback.call(this._push_caller, err, err? false : true);
+      var pairs = {};
+      pairs[this._aa_action] = this._aa_pairs;
+      collection.update(this._update_conditions, this._update_objNew, function(err) {
+        obj._update_callback.call(obj._update_caller, err, err? false : true);
       });
     }
+  }
+  _proto.updateById = function(id, objNew, caller, callback) {
+    this.update({_id: this._serializedId(id)}, objNew, caller, callback);
   }
 }
 

@@ -4,9 +4,3 @@ span.space
 section#main
   each contact in contacts
     include _read
-
-select#select_tags
-  option(value=0) Hello
-  each tag in tags
-    option(value=tag.id)= tag.name
-

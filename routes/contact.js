@@ -98,6 +98,48 @@ var create = module.exports.create = function(req, res, afterTask) {
   }
 }
 
+var addTag = module.exports.addTag = function(req, res, afterTask) {
+  req.context._json = {}
+  var contact_id = req.body.contact_id;
+  var contact = new Contact();
+  contact.updateById(contact_id, {'$addToSet': {tags: req.body.tag}}, this, onUpdate);
+
+  function onUpdate(error, pass) {
+    if (pass) {
+      render(true);
+    } else {
+      render(false);
+    }
+  }
+
+  function render(success) {
+    req.context._json.result = success? 'OK' : 'ERROR';
+    afterTask(req, res, '');
+  }
+}
+
+var removeTag = module.exports.removeTag = function(req, res, afterTask) {
+  req.context._json = {};
+  var contact_id = req.body.contact_id;
+  var contact = new Contact();
+  contact.updateById(contact_id, {'$pull': {tags: req.body.tag}}, this, onUpdate);
+
+  function onUpdate(error, pass) {
+    if (pass) {
+      render(true);
+    } else {
+      render(false);
+    }
+  }
+
+  function render(success) {
+    req.context._json.result = success? 'OK' : 'ERROR';
+    afterTask(req, res, '');
+  }
+}
+
 index.require_login = true;
 taskNew.require_login = true;
 create.require_login = true;
+addTag.require_login = true;
+removeTag.require_login = true;

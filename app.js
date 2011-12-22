@@ -59,6 +59,8 @@ dispatcher.routes('contact'
   , ['get', '/contacts', 'index']
   , ['get', '/contacts/new', 'new']
   , ['post', '/contacts/create', 'create']
+  , ['post', '/contacts/addTag', 'addTag']
+  , ['post', '/contacts/removeTag', 'removeTag']
 );
 
 app.listen(3000);

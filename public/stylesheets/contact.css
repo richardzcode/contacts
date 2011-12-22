@@ -6,10 +6,10 @@
 .contact-read .message{display:none;}
 .contact-read .message .subject{font-style:italic}
 .contact-read .message .content{margin-left:16px}
+.contact-read .tag{display:inline-block;margin-right:5px;border-bottom:3px solid #f00;font-size:.9em;}
+.contact-read .tag .tag-remove{margin-left:5px;font-size:.8em;color:#aaa;cursor:pointer}
 .contact-read .action-add-tag{display:inline-block;text-align:right;float:right;}
 .contact-read .action-add-tag .action-add-tag-input{margin-right:-3px}
 .contact-form{width:400px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:1px 1px 3px #888;-moz-box-shadow:1px 1px 3px #888;box-shadow:1px 1px 3px #888;border-color:#aaa}
 footer{min-height:20px;}
 footer unread{border-color:#f00;border-width:2px}
-span.tag{border-bottom:3px solid #f00;}
-span.tag span.tag-remove{margin-left:5px;font-size:.8em;color:#aaa}

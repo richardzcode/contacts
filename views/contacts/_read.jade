@@ -3,7 +3,7 @@ if contact.read
 else
   footer_class = 'unread'
 
-div.contact-read
+div.contact-read(data-cid=contact._id)
   header= contact.name
   div.section-body
     dl
@@ -20,11 +20,12 @@ div.contact-read
 
   footer(class=footer_class)
     div
+      - avaliableTags = tags
       if contact.tags.length > 0
         each tag in contact.tags
-          span.tag= tag
-            span.tag-remove x
+          span.tag(data-tag=tag)= tag
+            span.tag-remove X
       else
         span.tag No tag
       span.action-add-tag
-        button.action-add-tag-button +
+        button.action-add-tag-button(data-tags=['Business', 'Personal']) +
