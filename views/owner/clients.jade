@@ -1,0 +1,17 @@
+include _menu
+
+section#main
+  div.client-edit
+    header Create client
+    div.section-body
+      form(method='POST', action='/owner/clients')
+        div.form-field
+          label Domain
+          input(type='text', name='client[domain]')
+        div.form-actions
+          input(type='submit', value='Create')
+
+  - if (owner.clients)
+    each client in owner.clients
+      div.client-read
+        Hello

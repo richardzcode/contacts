@@ -4,8 +4,10 @@ input,textarea,input[type="submit"],button{margin:3px;border:1px solid;-webkit-b
 input[type="submit"],button{background-color:#eee;border-color:#aaa;height:22px}
 nav{padding:5px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:1px 1px 3px #888;-moz-box-shadow:1px 1px 3px #888;box-shadow:1px 1px 3px #888;background-color:#fff;border-color:#aaa;text-align:right;}
 nav a{padding:0 10px}
-aside{margin-top:10px;padding:0 5px;}
-aside a{padding:0 10px}
+aside.menu{margin-top:10px;padding:0 5px;}
+aside.menu a{padding:0 10px}
+aside.menu .sub-menu{font-size:.9em;}
+aside.menu .sub-menu a{color:#11002b}
 div.section-body{padding:5px}
 header{-webkit-border-radius:5px 5px 0 0;-moz-border-radius:5px 5px 0 0;border-radius:5px 5px 0 0;padding:5px;background:-webkit-linear-gradient(top, #FFF, #e6e9f2);background:-moz-linear-gradient(top, #FFF, #e6e9f2);background:linear-gradient(top, #e6e9f2);background-color:#e6e9f2;color:#555;font-size:18px;text-align:center;letter-spacing:.1em}
 footer{-webkit-border-radius:0 0 5px 5px;-moz-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;padding:5px 10px;border-top:1px solid #aaa}
