@@ -20,7 +20,6 @@ div.contact-read(data-cid=contact._id)
 
   footer(class=footer_class)
     div
-      - avaliableTags = tags
       if contact.tags.length > 0
         each tag in contact.tags
           span.tag(data-tag=tag)= tag
@@ -28,4 +27,4 @@ div.contact-read(data-cid=contact._id)
       else
         span.tag No tag
       span.action-add-tag
-        button.action-add-tag-button(data-tags=['Business', 'Personal']) +
+        button.action-add-tag-button() +

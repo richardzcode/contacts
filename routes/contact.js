@@ -11,11 +11,16 @@ function prepare(req, action) {
 var index = module.exports.index = function(req, res, afterTask) {
   var ctx = req.context.extend({
     _page_title: 'Contacts',
+    tags: []
   });
   prepare(req, 'index');
 
   var contact = new Contact();
-  contact.findAll({owner_id: ctx._auth_owner._id}, {sort: {'$natural': -1}}, null, onFindContact);
+  var conditions = {owner_id: ctx._auth_owner._id};
+  if (req.params.tag) {
+    conditions.tags = req.params.tag;
+  }
+  contact.findAll(conditions, {sort: {'$natural': -1}}, null, onFindContact);
 
   function onFindContact(err, records) {
     var contacts = [];
@@ -59,6 +64,11 @@ var create = module.exports.create = function(req, res, afterTask) {
 
   var owner = ctx._auth_owner;
   var data = req.body.contact;
+  var tags = data.tags.split(/,\s*/);
+  if (tags[tags.length - 1].length == 0) {
+    tags.pop();
+  }
+  data.tags = tags;
   data.owner_id = ctx._auth_owner._id;
   this._data = data;
   var contact = new Contact();
@@ -98,8 +108,27 @@ var create = module.exports.create = function(req, res, afterTask) {
   }
 }
 
+var getTags = module.exports.getTags = function(req, res, afterTask) {
+  prepare(req, 'getTags');
+  render();
+
+  function render() {
+    var data = ['Business', 'Personal'];
+    if (req.context._format == 'json') {
+      req.context._json = {data: data};
+      afterTask(req, res, '');
+    } else {
+      req.context.extend({
+        _page_title: 'Tags',
+        tags: data
+      });
+      afterTask(req, res, 'contacts/tags');
+    }
+  }
+}
+
 var addTag = module.exports.addTag = function(req, res, afterTask) {
-  req.context._json = {}
+  req.context._json = {};
   var contact_id = req.body.contact_id;
   var contact = new Contact();
   contact.updateById(contact_id, {'$addToSet': {tags: req.body.tag}}, this, onUpdate);
@@ -141,5 +170,6 @@ var removeTag = module.exports.removeTag = function(req, res, afterTask) {
 index.require_login = true;
 taskNew.require_login = true;
 create.require_login = true;
+getTags.require_login = true;
 addTag.require_login = true;
 removeTag.require_login = true;

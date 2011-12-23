@@ -33,7 +33,9 @@ Dispatcher.prototype.routes = function() {
 
   function beforeTask(req, res, task) {
     req.context.extend({
-      _app_title: 'EXP',
+      _app_title: 'CMSIC',
+      _format: req.params.format? req.params.format.replace(/^\./, '') : 'html',
+      _task: task,
       _auth_owner: null
     });
 

@@ -1,9 +1,10 @@
-ul(id='messages')
-  - if (_error.length)
-    - _error.forEach(function(line) {
-      li(class='message-error')= line
-    - });
-  - if (_info.length)
-    - _info.forEach(function(line) {
-      li(class='message-info')= line
-    - });
+- if (_error.length + _info.length > 0)
+  ul(id='messages')
+    - if (_error.length)
+      - _error.forEach(function(line) {
+        li(class='message-error')= line
+      - });
+    - if (_info.length)
+      - _info.forEach(function(line) {
+        li(class='message-info')= line
+      - });

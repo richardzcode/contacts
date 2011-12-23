@@ -8,7 +8,7 @@ body
 a
   color #00B7FF
 
-input, input[type="submit"], button
+input, textarea, input[type="submit"], button
   margin 3px
   border 1px solid
   b-r 3px
@@ -19,17 +19,21 @@ input[type="submit"], button
   border-color #AAA
   height 22px
 
-nav, aside
+nav
   padding 5px
   b-r 5px
   b-s 1px 1px 3px #888
   background-color #FFF
   border-color #AAA
+  text-align right
   a
     padding 0 10px
 
-nav#main-menu
-    text-align right
+aside
+  margin-top 10px
+  padding 0 5px
+  a
+    padding 0 10px
 
 div.section-body
   padding 5px
@@ -83,6 +87,7 @@ div.form-actions
   width 950px
 
 #login, #signup
+  margin 5px auto
   width 320px
   b-r 5px
   b-s 1px 1px 3px #888
@@ -95,4 +100,4 @@ div.form-actions
   padding 0.35em
 
 .ui-autocomplete-input
-  margin 0
+  //margin 0

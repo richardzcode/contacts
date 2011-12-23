@@ -1,0 +1,6 @@
+include _menu
+
+section#main
+  each tag in tags
+    span.tag-read
+      a(href='/contacts/list/' + escape(tag))= tag

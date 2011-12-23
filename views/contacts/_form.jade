@@ -17,5 +17,8 @@ section.contact-form
       div.form-field
         label Content
         textarea(name="contact[content]", value=contact.content)
+      div.form-field
+        label Tags
+        input(type="text", id="f_contact_tags", name="contact[tags]", value=contact.tags, data-tags=['Business', 'Personal'])
       div.form-actions
         input(type="submit", value="Create")

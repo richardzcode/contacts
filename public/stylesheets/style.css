@@ -1,10 +1,11 @@
 body{padding:10px 50px;font:14px Helvetica,Arial,sans-serif;background-color:#fff}
 a{color:#00b7ff}
-input,input[type="submit"],button{margin:3px;border:1px solid;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;height:18px}
+input,textarea,input[type="submit"],button{margin:3px;border:1px solid;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;height:18px}
 input[type="submit"],button{background-color:#eee;border-color:#aaa;height:22px}
-nav,aside{padding:5px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:1px 1px 3px #888;-moz-box-shadow:1px 1px 3px #888;box-shadow:1px 1px 3px #888;background-color:#fff;border-color:#aaa;}
-nav a,aside a{padding:0 10px}
-nav#main-menu{text-align:right}
+nav{padding:5px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:1px 1px 3px #888;-moz-box-shadow:1px 1px 3px #888;box-shadow:1px 1px 3px #888;background-color:#fff;border-color:#aaa;text-align:right;}
+nav a{padding:0 10px}
+aside{margin-top:10px;padding:0 5px;}
+aside a{padding:0 10px}
 div.section-body{padding:5px}
 header{-webkit-border-radius:5px 5px 0 0;-moz-border-radius:5px 5px 0 0;border-radius:5px 5px 0 0;padding:5px;background:-webkit-linear-gradient(top, #FFF, #e6e9f2);background:-moz-linear-gradient(top, #FFF, #e6e9f2);background:linear-gradient(top, #e6e9f2);background-color:#e6e9f2;color:#555;font-size:18px;text-align:center;letter-spacing:.1em}
 footer{-webkit-border-radius:0 0 5px 5px;-moz-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;padding:5px 10px;border-top:1px solid #aaa}
@@ -17,7 +18,6 @@ div.form-field input,div.form-field textarea{width:200px}
 div.form-field textarea{height:80px}
 div.form-actions{text-align:right}
 #container{margin:0 auto;width:950px}
-#login,#signup{width:320px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:1px 1px 3px #888;-moz-box-shadow:1px 1px 3px #888;box-shadow:1px 1px 3px #888;border-color:#aaa}
+#login,#signup{margin:5px auto;width:320px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:1px 1px 3px #888;-moz-box-shadow:1px 1px 3px #888;box-shadow:1px 1px 3px #888;border-color:#aaa}
 .ui-button{margin-left:-1px}
 .ui-button-icon-only .ui-button-text{padding:.35em}
-.ui-autocomplete-input{margin:0}

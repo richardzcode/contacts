@@ -57,7 +57,9 @@ dispatcher.routes('owner'
 
 dispatcher.routes('contact'
   , ['get', '/contacts', 'index']
+  , ['get', '/contacts/list/:tag?', 'index']
   , ['get', '/contacts/new', 'new']
+  , ['get', '/contacts/tags.:format?', 'getTags']
   , ['post', '/contacts/create', 'create']
   , ['post', '/contacts/addTag', 'addTag']
   , ['post', '/contacts/removeTag', 'removeTag']

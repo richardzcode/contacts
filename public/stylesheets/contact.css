@@ -13,3 +13,5 @@
 .contact-form{width:400px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:1px 1px 3px #888;-moz-box-shadow:1px 1px 3px #888;box-shadow:1px 1px 3px #888;border-color:#aaa}
 footer{min-height:20px;}
 footer unread{border-color:#f00;border-width:2px}
+.tag-read{display:inline-block;margin-right:10px;padding:3px 5px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:1px 1px 3px #888;-moz-box-shadow:1px 1px 3px #888;box-shadow:1px 1px 3px #888;border-color:#aaa;}
+.tag-read a{color:#000}
