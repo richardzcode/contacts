@@ -125,38 +125,28 @@ function base(cls) {
     if (options.type == 'first') {
       options.limit = 1;
     }
-    this.extend({
-      _find_conditions: conditions,
-      _find_options: options,
-      _find_caller: caller,
-      _find_callback: callback
-    });
-    this.getCollection(this, this.find_onCollection);
-  }
-  _proto.find_onCollection = function(err, collection) {
-      var obj = this;
+
+    var onCollection = function(err, collection) {
       if (err) {
-        obj._find_callback.call(obj._find_caller, err, null);
+        callback.call(caller, err, null);
       } else {
-        var options = obj._find_options;
-        var cursor = collection.find(obj._find_conditions, options);
-        //if (options.sort) {
-        //  cursor = cursor.sort({'$natural': -1});
-        //}
-        switch(obj._find_options.type) {
+        var cursor = collection.find(conditions, options);
+        switch (options.type) {
           case 'first':
             cursor.nextObject(function(err, doc) {
-              obj._find_callback.call(obj._find_caller, err, doc);
+              callback.call(caller, err, doc);
             });
             break;
           case 'all':
           default:
             cursor.toArray(function(err, records) {
-              obj._find_callback.call(obj._find_caller, err, records);
+              callback.call(caller, err, records);
             });
             break;
         }
       }
+    }
+    this.getCollection(this, onCollection);
   }
 
   _proto.findById = function(id, caller, callback) {
