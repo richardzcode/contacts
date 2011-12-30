@@ -145,7 +145,8 @@ function base(cls) {
             break;
         }
       }
-    }
+    };
+
     this.getCollection(this, onCollection);
   }
 
@@ -180,44 +181,40 @@ function base(cls) {
   }
 
   _proto.save = function(caller, callback) {
-    this._save_caller = caller;
-    this._save_callback = callback;
-    collection = this.getCollection(this, this.save_onCollection);
-  }
-  _proto.save_onCollection = function(err, collection) {
-    var obj = this;
-    if (err) {
-      this._save_callback.call(this._save_caller, err, null);
-    } else {
-      collection.insert(this.asRecord(), function(err, doc) {
+    var onCollection = function(err, collection) {
+      if (err) {
+        callback.call(caller, err, null);
+      } else {
+        doInsert(collection, this, caller, callback);
+      }
+    };
+
+    var doInsert = function(collection, obj, caller, callback) {
+      collection.insert(obj.asRecord(), function(err, doc) {
         if (err) {
-          obj._save_callback.call(obj._save_caller, err, null);
+          callback.call(caller, err, null);
         } else {
           obj.bind(doc);
-          obj._save_callback.call(obj._save_caller, err, obj);
+          callback.call(caller, err, obj);
         }
       });
-    }
+    };
+
+    this.getCollection(this, onCollection);
   }
 
   _proto.update = function(conditions, objNew, caller, callback) {
-    this._update_conditions = conditions;
-    this._update_objNew = objNew;
-    this._update_caller = caller;
-    this._update_callback = callback;
-    collection = this.getCollection(this, this.update_onCollection);
-  }
-  _proto.update_onCollection = function(err, collection) {
-    var obj = this;
-    if(err) {
-      this._update_callback.call(this._update_caller, err, false);
-    } else {
-      var pairs = {};
-      pairs[this._aa_action] = this._aa_pairs;
-      collection.update(this._update_conditions, this._update_objNew, function(err) {
-        obj._update_callback.call(obj._update_caller, err, err? false : true);
-      });
-    }
+    var onCollection = function(err, collection) {
+      if (err) {
+        callback.call(caller, err, false);
+      } else {
+        collection.update(conditions, objNew, function(err) {
+          callback.call(caller, err, err? false : true);
+        });
+      }
+    };
+
+    this.getCollection(this, onCollection);
   }
   _proto.updateById = function(id, objNew, caller, callback) {
     this.update({_id: this._serializedId(id)}, objNew, caller, callback);
