@@ -54,6 +54,7 @@ dispatcher.routes('auth'
 dispatcher.routes('owner'
   , ['gp', '/owner/profile', 'profile']
   , ['gp', '/owner/clients', 'clients']
+  , ['post', '/owner/clients/create', 'createClient']
 );
 
 dispatcher.routes('contact'

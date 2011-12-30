@@ -28,6 +28,11 @@ var clients = module.exports.clients = function(req, res, afterTask) {
   afterTask(req, res, 'owner/clients');
 }
 
+var createClient = module.exports.createClient = function(req, res, afterTask) {
+  req.context._redirect = 'owner/clients';
+  afterTask(req, res, '');
+}
 
 profile.require_login = true;
 clients.require_login = true;
+createClient.require_login = true;

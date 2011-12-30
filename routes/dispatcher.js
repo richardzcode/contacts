@@ -61,6 +61,8 @@ Dispatcher.prototype.routes = function() {
       ctx._info = ctx.info();
       ctx.clearFlash();
       res.render(template, req.context);
+    } else if (ctx._redirect) {
+      res.redirect(ctx._redirect);
     } else if (ctx._json) {
       res.send(JSON.stringify(ctx._json));
     } else {
