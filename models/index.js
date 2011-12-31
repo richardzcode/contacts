@@ -1,9 +1,9 @@
 var path = require('path')
   , basename = path.basename
   , fs = require('fs')
+  , util = require('util')
   , settings = require('../settings.js')
-  , Validator = require('./_validator.js')
-  , util = require('util');
+  , Validator = require('./_validator.js');
 
 var ModelBase = function(data) {
   this.init(data);
@@ -238,6 +238,5 @@ fs.readdirSync(__dirname).forEach(function(filename) {
   var model = require('./' + name + '.js');
   cls = model.klass? model.klass : model;
   util.inherits(cls, ModelBase);
-  //base(cls, model.FIELDMAP);
   exports[model.name? model.name : name] = cls;
 });
