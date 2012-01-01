@@ -7,8 +7,7 @@ var util = require('util');
 var validator = module.exports = function(model) {
   this._validate_model = model;
 
-  this.validate = function(data, caller, callback) {
-    this._validate_caller = caller;
+  this.validate = function(data, callback) {
     this._validate_callback = callback;
     this._validate_data = data;
     this._validate_errors = [];
@@ -32,7 +31,7 @@ var validator = module.exports = function(model) {
     }
 
     if (this._pending_rules.length == 0) {
-      this._validate_callback.call(this._validate_caller, this._validate_errors, (this._validate_errors.length == 0));
+      this._validate_callback(this._validate_errors, (this._validate_errors.length == 0));
     } else {
       var rule = this._pending_rules.shift();
       var fn = this[rule.type];
@@ -75,22 +74,25 @@ _proto.required = function(rule) {
 };
 
 _proto.unique = function(rule) {
-  this._unique_current_rule = rule; // For unique_onFind callback.
-  var data = this._validate_data;
-  var field_name = rule.field_name;
-  var value = data[field_name];
-  var conditions = {};
-  conditions[field_name] = value;
-  if (data._id) {
-    conditions._id = {'$ne': this._validate_model._serializedId(data._id)}
-  }
-  this._validate_model.findFirst(conditions, this, this.unique_onFind);
-};
-_proto.unique_onFind = function(err, doc) {
-  var err = false;
-  if (doc) {
-    var rule = this._unique_current_rule;
-    err = this.errorMessage(rule);
-  }
-  this.onValidate(err);
+  var doUnique = function(obj) {
+    var onFind = function(err, doc) {
+      var err = false;
+      if (doc) {
+        err = obj.errorMessage(rule);
+      }
+      obj.onValidate(err);
+    };
+
+    var data = obj._validate_data;
+    var field_name = rule.field_name;
+    var value = data[field_name];
+    var conditions = {};
+    conditions[field_name] = value;
+    if (data._id) {
+      conditions._id = {'$ne': obj._validate_model._serializedId(data._id)}
+    }
+  obj._validate_model.findFirst(conditions, onFind);
+  };
+
+  doUnique(this);
 };

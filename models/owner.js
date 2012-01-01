@@ -24,54 +24,50 @@ module.exports.klass = function(data) {
   }
 
   this.authenticate = function(callback) {
-    this._auth_callback = callback;
-    this.findFirst({email: this.email}
-      , this
-      , this.onAuthenticate);
-  }
+    var RESULT = this.RESULT;
+    var doAuth = function(obj) {
+      var onFind = function(err, record) {
+        var ret = RESULT.ERROR;
+        if (record) {
+          if (record.password_digest === util.digest(obj.password)) {
+            obj.bind(record);
+            ret = RESULT.SUCCESS;
+          } else {
+            ret = RESULT.WRONG_PASSWORD;
+          }
+        } else if (!err) {
+          ret = RESULT.DOESNT;
+        }
+        callback(err, ret);
+      };
 
-  this.onAuthenticate = function(err, record) {
-      var ret = this.RESULT.ERROR;
-      if (record) {
-        if (record.password_digest == util.digest(this.password)) {
-          this.bind(record);
-          ret = this.RESULT.SUCCESS;
-        } else {
-          ret = this.RESULT.WRONG_PASSWORD;
-        }
-      } else {
-        if (!err) {
-          ret = this.RESULT.DOESNT_EXIST;
-        }
-      }
-      this._auth_callback(err, ret);
+      obj.findFirst({email: obj.email}, onFind);
     };
 
+    doAuth(this);
+  }
+
   this.signup = function(callback) {
-    this._signup_callback = callback;
-    this.findFirst({email: this.email}
-      , this
-      , this.onSignupFind);
-  }
+    var RESULT = this.RESULT;
+    var doSignup = function(obj) {
+      var onFind = function(err, doc) {
+        if (err) {
+          callback(err, RESULT.ERROR);
+        } else if (doc) {
+          callback(false, RESULT.ALREADY_EXIST);
+        } else {
+          obj.password_digest = util.digest(obj.password);
+          obj.save(onSave);
+        }
+      };
 
-  this.onSignupFind = function(err, record) {
-    if (err) {
-      this._signup_callback(err, this.RESULT_ERROR);
-      return;
-    }
-    if (record) {
-      this._signup_callback(false, this.RESULT.ALREADY_EXIST);
-    } else {
-      this.password_digest = util.digest(this.password);
-      this.save(this, this.onSignupSave);
-    }
-  }
+      var onSave = function(err, success) {
+        callback(err, success? RESULT.SUCCESS : RESULT.ERROR);
+      };
 
-  this.onSignupSave = function(err, obj) {
-    if (err) {
-      this._signup_callback(err, this.RESULT.ERROR);
-    } else {
-      this._signup_callback(false, this.RESULT.SUCCESS);
-    }
-  }
+      obj.findFirst({email: obj.email}, onFind);
+    };
+
+    doSignup(this);
+  };
 }

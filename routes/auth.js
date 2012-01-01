@@ -40,34 +40,31 @@ exports.login = function(req, res, afterTask){
 };
 
 exports.signup = function(req, res, afterTask) {
-  var owner = new Owner();
-  if (req.body && req.body.owner) {
-    var data = req.body.owner;
-    this._data = data;
-    owner.validate(data, this, onValidate);
-  } else {
-    render();
-  }
-
-  function onValidate(error, pass) {
+  var onValidate = function(error, pass) {
     if (pass) {
       var owner = new Owner();
-      owner.bind(this._data);
+      owner.bind(req.body.owner);
       owner.signup(onSignup);
     } else {
       req.context.error(error);
       render();
     }
-  }
+  };
 
-
-  function onSignup(err, result) {
+  var onSignup = function(err, result) {
     if (result == owner.RESULT.SUCCESS) {
       req.context.info('Thank you for join us!');
       res.redirect('/');
     } else {
       render();
     }
+  };
+
+  var owner = new Owner();
+  if (req.body && req.body.owner) {
+    owner.validate(req.body.owner, onValidate);
+  } else {
+    render();
   }
 
   function render() {

@@ -20,7 +20,7 @@ var index = module.exports.index = function(req, res, afterTask) {
   if (req.params.tag) {
     conditions.tags = req.params.tag;
   }
-  contact.findAll(conditions, {sort: {'$natural': -1}}, null, onFindContact);
+  contact.findAll(conditions, {sort: {'$natural': -1}}, onFindContact);
 
   function onFindContact(err, records) {
     var contacts = [];
@@ -31,7 +31,7 @@ var index = module.exports.index = function(req, res, afterTask) {
       contacts: contacts
     });
     var tag = new Tag();
-    tag.findAll({owner_id: ctx._auth_owner._id}, {}, null, onFindTag);
+    tag.findAll({owner_id: ctx._auth_owner._id}, {}, onFindTag);
   }
 
   function onFindTag(err, records) {
@@ -62,7 +62,25 @@ var create = module.exports.create = function(req, res, afterTask) {
   });
   prepare(req, 'create');
 
-  var owner = ctx._auth_owner;
+  var doCreate = function(contact, data) {
+    var onSave = function(err, success) {
+      if (err) {
+        req.context.error(err);
+      }
+      render(success? contact : null);
+    };
+
+    contact.validate(data, function(err, pass) {
+      if (pass) {
+        contact.bind(req.body.contact);
+        contact.save(onSave);
+      } else {
+        ctx.error(err);
+        render(null);
+      }
+    });
+  };
+
   var data = req.body.contact;
   var tags = data.tags.split(/,\s*/);
   if (tags[tags.length - 1].length == 0) {
@@ -70,28 +88,8 @@ var create = module.exports.create = function(req, res, afterTask) {
   }
   data.tags = tags;
   data.owner_id = ctx._auth_owner._id;
-  this._data = data;
   var contact = new Contact();
-  contact.validate(data, this, onValidate);
-
-  function onValidate(error, pass) {
-    if (pass) {
-      contact.bind(this._data);
-      contact.save(this, onSave);
-    } else {
-      ctx.error(error);
-      render(null);
-    }
-  }
-
-  function onSave(err, obj) {
-    if (err) {
-      req.context.error(err);
-      render(null);
-    } else {
-      render(obj);
-    }
-  }
+  doCreate(contact, data);
 
   function render(obj) {
     req.context.extend({
@@ -131,7 +129,7 @@ var addTag = module.exports.addTag = function(req, res, afterTask) {
   req.context._json = {};
   var contact_id = req.body.contact_id;
   var contact = new Contact();
-  contact.updateById(contact_id, {'$addToSet': {tags: req.body.tag}}, this, onUpdate);
+  contact.updateById(contact_id, {'$addToSet': {tags: req.body.tag}}, onUpdate);
 
   function onUpdate(error, pass) {
     if (pass) {
@@ -151,7 +149,7 @@ var removeTag = module.exports.removeTag = function(req, res, afterTask) {
   req.context._json = {};
   var contact_id = req.body.contact_id;
   var contact = new Contact();
-  contact.updateById(contact_id, {'$pull': {tags: req.body.tag}}, this, onUpdate);
+  contact.updateById(contact_id, {'$pull': {tags: req.body.tag}}, onUpdate);
 
   function onUpdate(error, pass) {
     if (pass) {
