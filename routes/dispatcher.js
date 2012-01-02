@@ -64,6 +64,7 @@ Dispatcher.prototype.routes = function() {
     } else if (ctx._redirect) {
       res.redirect(ctx._redirect);
     } else if (ctx._json) {
+      res.setHeader('Content-Type', 'application/json');
       res.send(JSON.stringify(ctx._json));
     } else {
       ctx.error('No template for render');

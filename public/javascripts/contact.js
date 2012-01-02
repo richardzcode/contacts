@@ -26,8 +26,11 @@
     $.post('/contacts/removeTag'
       , 'contact_id=' + el.parents('.contact-read').attr('data-cid') + '&tag=' + tag
       , function(data) {
-        console.log(data);
+        if (data.result === 'OK') {
+          refreshTags(data.data);
+        }
       }
+      , 'json'
     );
   }
 
@@ -84,9 +87,28 @@
     $.post('/contacts/addTag'
       , 'contact_id=' + el.parents('.contact-read').attr('data-cid') + '&tag=' + tag
       , function(data) {
-      }
+        if (data.result === 'OK') {
+          refreshTags(data.data);
+        }
+     }
+      , 'json'
     );
-  }
+  };
+
+  var refreshTags = function(contact) {
+    var footer = $('.contact-read[data-cid="' + contact._id + '"] footer');
+    footer.find('span.tag').remove();
+    $.each(contact.tags.reverse(), function(index, value) {
+      var remove = $('<span></span>').addClass('tag-remove')
+        .text('X').click(function() {
+          removeTag($(this).parents('.tag'));
+        });
+      $('<span></span>').addClass('tag').attr('data-tag', value)
+        .text(value)
+        .append(remove)
+        .prependTo(footer);
+    });
+  };
 
   // Form tags autocomplete
   $('#f_contact_tags').keydown(function(evt) {

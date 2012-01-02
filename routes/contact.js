@@ -126,41 +126,49 @@ var getTags = module.exports.getTags = function(req, res, afterTask) {
 }
 
 var addTag = module.exports.addTag = function(req, res, afterTask) {
+  var doAddTag = function(obj, id) {
+    var onUpdate = function(err, doc) {
+      if (doc) {
+        obj.bind(doc);
+      }
+      render(doc? true : false, obj);
+    };
+
+    obj.updateById(id, {'$addToSet': {tags: req.body.tag}}, onUpdate);
+  };
+
   req.context._json = {};
-  var contact_id = req.body.contact_id;
-  var contact = new Contact();
-  contact.updateById(contact_id, {'$addToSet': {tags: req.body.tag}}, onUpdate);
+  doAddTag(new Contact(), req.body.contact_id);
 
-  function onUpdate(error, pass) {
-    if (pass) {
-      render(true);
-    } else {
-      render(false);
-    }
-  }
-
-  function render(success) {
+  function render(success, contact) {
     req.context._json.result = success? 'OK' : 'ERROR';
+    if (contact) {
+      req.context._json.data = contact.asRecord();
+    }
     afterTask(req, res, '');
   }
 }
 
 var removeTag = module.exports.removeTag = function(req, res, afterTask) {
+  var doRemoveTag = function(obj, id) {
+    var onUpdate = function(err, doc) {
+      if (doc) {
+        obj.bind(doc);
+      }
+      render(doc? true : false, obj);
+    };
+
+    obj.updateById(id, {'$pull': {tags: req.body.tag}}, onUpdate);
+  };
+
   req.context._json = {};
-  var contact_id = req.body.contact_id;
-  var contact = new Contact();
-  contact.updateById(contact_id, {'$pull': {tags: req.body.tag}}, onUpdate);
+  doRemoveTag(new Contact(), req.body.contact_id);
 
-  function onUpdate(error, pass) {
-    if (pass) {
-      render(true);
-    } else {
-      render(false);
-    }
-  }
-
-  function render(success) {
+  function render(success, contact) {
     req.context._json.result = success? 'OK' : 'ERROR';
+    if (contact) {
+      req.context._json.data = contact.asRecord();
+    }
     afterTask(req, res, '');
   }
 }

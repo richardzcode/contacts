@@ -12,8 +12,6 @@ var ModelBase = function(data) {
 var _proto = ModelBase.prototype;
 
 _proto.init = function(data) {
-  this.db = null;
-
   // FIELDMAP:
   // field: {
   //   default: ..,
@@ -91,14 +89,11 @@ _proto.asJSON = function() {
 };
 
 _proto.getDb = function() {
-  if (this.db == null) {
-    var mongo = require('mongodb');
-    var server = new mongo.Server(settings.mongo_host
-      , settings.mongo_port
-      , {auto_reconnect: true});
-    this.db =  new mongo.Db(settings.mongo_db_name, server, {});
-  }
-  return this.db;
+  var mongo = require('mongodb');
+  var server = new mongo.Server(settings.mongo_host
+    , settings.mongo_port
+    , {auto_reconnect: true});
+  return new mongo.Db(settings.mongo_db_name, server, {});
 };
 
 _proto.getCollection = function(callback) {
@@ -201,13 +196,17 @@ _proto.save = function(callback) {
   doSave(this);
 };
 
+// Update single object.
+// Call findAndModify instead of update.
+// Return modified object.
+// Something: if call update, then call find, I got the old doc.
 _proto.update = function(conditions, objNew, callback) {
   var onCollection = function(err, collection) {
     if (err) {
       callback(err, false);
     } else {
-      collection.update(conditions, objNew, function(err) {
-        callback(err, err? false : true);
+      collection.findAndModify(conditions, [], objNew, {new: true}, function(err, doc) {
+        callback(err, doc);
       });
     }
   };

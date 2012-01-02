@@ -19,12 +19,11 @@ div.contact-read(data-cid=contact._id)
       div.content= contact.content
 
   footer(class=footer_class)
-    div
-      if contact.tags.length > 0
-        each tag in contact.tags
-          span.tag(data-tag=tag)= tag
-            span.tag-remove X
-      else
-        span.tag No tag
-      span.action-add-tag
-        button.action-add-tag-button() +
+    if contact.tags.length > 0
+      each tag in contact.tags
+        span.tag(data-tag=tag)= tag
+          span.tag-remove X
+    else
+      span.tag No tag
+    span.action-add-tag
+      button.action-add-tag-button() +
