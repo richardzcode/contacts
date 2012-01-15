@@ -11,7 +11,8 @@ section#main
         div.form-actions
           input(type='submit', value='Create')
 
-  - if (owner.clients)
-    each client in owner.clients
+  - if (clients)
+    each client in clients
       div.client-read
         Hello
+        = client.domain

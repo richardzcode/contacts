@@ -15,14 +15,7 @@ var index = module.exports.index = function(req, res, afterTask) {
   });
   prepare(req, 'index');
 
-  var contact = new Contact();
-  var conditions = {owner_id: ctx._auth_owner._id};
-  if (req.params.tag) {
-    conditions.tags = req.params.tag;
-  }
-  contact.findAll(conditions, {sort: {'$natural': -1}}, onFindContact);
-
-  function onFindContact(err, records) {
+  var onFindContact = function(err, records) {
     var contacts = [];
     for (var i = 0; i < records.length; i ++) {
       contacts.push(new Contact(records[i]));
@@ -32,9 +25,9 @@ var index = module.exports.index = function(req, res, afterTask) {
     });
     var tag = new Tag();
     tag.findAll({owner_id: ctx._auth_owner._id}, {}, onFindTag);
-  }
+  };
 
-  function onFindTag(err, records) {
+  var onFindTag = function(err, records) {
     var tags = [];
     for (var i = 0; i < records.length; i ++) {
       tags.push(new Tag(records[i]));
@@ -43,7 +36,14 @@ var index = module.exports.index = function(req, res, afterTask) {
       tags: tags
     });
     afterTask(req, res, 'contacts/index');
+  };
+
+  var contact = new Contact();
+  var conditions = {owner_id: ctx._auth_owner._id};
+  if (req.params.tag) {
+    conditions.tags = req.params.tag;
   }
+  contact.findAll(conditions, {sort: {'$natural': -1}}, onFindContact);
 }
 
 var taskNew = module.exports.new = function(req, res, afterTask) {
@@ -56,10 +56,6 @@ var taskNew = module.exports.new = function(req, res, afterTask) {
 }
 
 var create = module.exports.create = function(req, res, afterTask) {
-  var ctx = req.context;
-  ctx.extend({
-    _page_title: 'Create contact'
-  });
   prepare(req, 'create');
 
   var doCreate = function(contact, data) {
@@ -75,23 +71,13 @@ var create = module.exports.create = function(req, res, afterTask) {
         contact.bind(req.body.contact);
         contact.save(onSave);
       } else {
-        ctx.error(err);
+        req.context.error(err);
         render(null);
       }
     });
   };
 
-  var data = req.body.contact;
-  var tags = data.tags.split(/,\s*/);
-  if (tags[tags.length - 1].length == 0) {
-    tags.pop();
-  }
-  data.tags = tags;
-  data.owner_id = ctx._auth_owner._id;
-  var contact = new Contact();
-  doCreate(contact, data);
-
-  function render(obj) {
+  var render = function(obj) {
     req.context.extend({
       _page_title: 'Create contact'
     });
@@ -104,6 +90,16 @@ var create = module.exports.create = function(req, res, afterTask) {
       afterTask(req, res, 'contacts/new');
     }
   }
+
+  var data = req.body.contact;
+  var tags = data.tags.split(/,\s*/);
+  if (tags[tags.length - 1].length == 0) {
+    tags.pop();
+  }
+  data.tags = tags;
+  data.owner_id = req.context._auth_owner._id;
+  var contact = new Contact();
+  doCreate(contact, data);
 }
 
 var getTags = module.exports.getTags = function(req, res, afterTask) {
